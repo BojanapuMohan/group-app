@@ -1,0 +1,30 @@
+= simple_form_for(@employee) do |f|
+  = f.error_notification
+  %fieldset
+    = f.input :first_name
+    = f.input :last_name
+    = f.input :phone
+    = f.input :sin,{:label => "SIN"}
+    = f.input :email
+    = f.input :address
+    = f.input :hourly_rate
+    = f.input :seniority,:label=> "Hours Worked (Seniority)"
+    = f.input :group, collection: ["HEU","BCNU"], as: :radio_buttons
+    = f.input :employee_class, collection: Employee.employee_classes, as: :radio_buttons
+    = f.input :hire_date, as: :date_picker
+    = f.input :date_of_birth, as: :date_picker
+    = f.input :registration_expiry, as: :date_picker
+    = f.input :first_aid_expiry, label: "First Aid Expiry", as: :date_picker
+    = f.input :whmis_expiry, label: "WHMIS Expiry", as: :date_picker
+    = f.input :food_safe_expiry, as: :date_picker
+    = f.input :nvci_expiry, label: "NVCI Expiry", as: :date_picker
+    = f.input :crc_expiry, label: "CRC Expiry", as: :date_picker
+    = f.input :evaluation_due, as: :date_picker
+
+  .form-actions
+    = f.button :submit
+    &nbsp; or &nbsp;
+    = link_to('cancel', employees_path) if can? :read, Employee 
+    .right
+      = link_to('Disable Employee', @employee, method: :delete, class: 'button alert', data: {confirm: "Are you sure you would like to disable #{@employee.name}"}) if (@employee.id) && (can? :update, @employee)
+    

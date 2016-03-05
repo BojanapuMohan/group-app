@@ -1,0 +1,15 @@
+#acceptShiftModal.reveal-modal{"data-reveal" => ""}
+  %h2
+    = "Confirm #{@employee_call_out.block_coverage} Block Coverage"
+  %p
+    You are going to substitute #{@call_out_shift.employee.name} for #{@call_out_shift.replaced_employee.name}
+  %ul
+    %li= "#{@call_out_shift.employees_role} at #{@call_out_shift.facility}"
+    %li= "#{@call_out_shift.time_range}"
+    %li= "#{@call_out_shift.schedule}"
+  = simple_form_for [@employee_call_out.facility, @call_out_shift] do |f|
+    = f.input :employee_id, as: :hidden
+    = f.input :start_date, as: :date_picker
+    = f.input :end_date, as: :date_picker
+    = f.submit "Confirm Change", class: "button"
+  %a.close-reveal-modal &times;

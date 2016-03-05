@@ -1,0 +1,16 @@
+%tr
+  %th Role name
+  %th Role abbreviation
+  %th Enabled?
+  %th
+
+- @employees_roles.each do |employees_role|
+  %tr
+    %td= text_field_tag "", employees_role.role_name, readonly: true
+    %td= text_field_tag  "", employees_role.role_abbreviation, readonly: true
+    %td= employees_role.enabled ? "Yes" : "NO"
+    -if employees_role.enabled
+      %td= link_to((image_tag "Disable.png"), employees_role, :method => :delete, :data => { :confirm => 'Disable Employees_Role?'}) if can? :update, employees_role
+    -else
+      %td= link_to((image_tag "Enable.png"), enable_employees_role_path(employees_role), :method => :patch, :data => { :confirm => 'Enable Employees_Role?'}) if can? :update, employees_role
+

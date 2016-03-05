@@ -1,0 +1,2 @@
+module CallOutShiftsHelper
+end

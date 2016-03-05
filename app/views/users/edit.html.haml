@@ -1,0 +1,10 @@
+%h2
+  Edit #{@user.name.humanize}
+= simple_form_for(@user) do |f|
+  %fieldset
+    = render 'user_fields', f: f
+  = f.button :submit, 'Update'
+  &nbsp; or &nbsp;
+  = f.button :submit, 'Re-Send Invitation'
+  &nbsp; or &nbsp;
+  = link_to('Cancel', users_path) if can? :read, User

@@ -1,0 +1,18 @@
+%h1= "Shifts for #{@facility}"
+.row
+  .large-2.columns
+    = collection_select(:shift, :facility_id, (Facility.enabled.accessible_by(current_ability)), :id, :name, {:selected => @facility.id})
+  .large-4.columns.right
+    .right
+      = link_to("New Shift", new_facility_shift_path(@facility), class: 'button')  if can? :create, Shift
+      = link_to("View Schedule", facility_schedule_path(@facility), class: 'button')if can? :read, @facility
+%table
+  - @shifts.each do |shift|
+    %tr
+      %td= shift.employees_role_role_abbreviation
+      %td= shift.start_date
+      %td= shift.end_date
+      %td= shift.start_time
+      %td= shift.shift_type_name
+      %td= shift.schedule
+      %td= link_to('Edit', edit_facility_shift_path(@facility,shift))if can? :edit, shift

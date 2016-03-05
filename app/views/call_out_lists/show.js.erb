@@ -1,0 +1,7 @@
+<% if @employee_call_out_list.filtered? %>
+  $("#<%= dom_id(@employee_call_out_list) %>").replaceWith('<%= j(render 'employee_call_out_list_table', employee_call_out_list: @employee_call_out_list) %>')
+  $("#<%= dom_id(@employee_call_out_list) %>").foundation('accordion', 'reflow');
+  $("#<%= dom_id(@employee_call_out_list) %>").siblings().click();
+<% else %>
+  $("#<%= dom_id(@employee_call_out_list) %>").trigger('filtering').append('.')
+<% end %>

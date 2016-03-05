@@ -1,0 +1,9 @@
+%h2 Employee Roles
+
+%table{:id => "employees_role_table"}
+  = render 'roles_table'
+%br
+
+= link_to('New Employees role', "#", :remote => true, class: "button", :id => "new_Employees_role_link", data: {element_toggle: 'new_Employees_role', element_toggle1: 'new_Employees_role_link'})   if can? :create, EmployeesRole
+%div{:id => "new_Employees_role", style: "display:none"}
+  = render 'form'

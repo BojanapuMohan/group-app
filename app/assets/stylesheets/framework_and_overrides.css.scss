@@ -1,0 +1,43 @@
+$row-width: 100%;
+
+// import the CSS framework
+@import "foundation";
+
+.simple_form {
+  @include grid-column(6);
+}
+
+.simple_form.full_width {
+  @include grid-column(12);
+}
+
+.button {
+  @extend .button;
+  @extend .radius;
+  @extend .tiny;
+}
+
+.day_of_week_name{
+  height: 35px;
+
+  input {
+    margin-left: 15px;
+  }
+
+}
+
+table {
+  width: 100%;
+}
+
+// schedule table
+
+td.not_scheduled {
+  background-color: grey;
+}
+td.vacant {
+  background-color: red;
+}
+td.scheduled {
+
+}

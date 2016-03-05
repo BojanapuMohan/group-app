@@ -1,0 +1,8 @@
+$("##{dom_id(@employee_call_out)}").replaceWith("#{j(render 'call_out_row', employee_call_out: @employee_call_out)}")
+- if @employee_call_out.accepted_by_employee?
+  $('#acceptShiftModal').remove();
+  $('body').append("#{j(render 'accept_shift_modal')}");
+  $(document).foundation();
+  $('.shiftdate').fdatepicker();
+  $('#acceptShiftModal').foundation('reveal', 'open');
+

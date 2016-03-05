@@ -1,0 +1,26 @@
+-# navigation styled for Zurb Foundation 5
+-# the syntax for data-topbar may need to change for Zurb Foundation 5
+%nav.top-bar{"data-topbar" => true}
+  %ul.title-area
+    %li.name
+      %h1
+        = link_to 'Bloom Group', root_path
+  %section.top-bar-section
+    %ul.right
+      %li= link_to("Scheduling", facility_schedule_path(Facility.accessible_by(current_ability).first))
+      %li.divider
+      %li= link_to("Shifts", facility_shifts_path(Facility.first)) if can? :read, Shift
+      %li.divider
+      %li= link_to("Employees", employees_path) if can? :read, Employee
+      %li.divider
+      %li.has-dropdown
+        = link_to(current_user.name, "#") 
+        %ul.dropdown
+          %li= link_to("Facilities", facilities_path) if can? :edit, Facility
+          %li= link_to('Users', users_path) if can? :read, User
+          %li= link_to('Employee Roles', employees_roles_path) if can? :read, EmployeesRole
+          %li= link_to('Employees Seniority', seniority_path) if can? :edit, Employee
+          %li= link_to("Reports", new_report_path)if can? :read, MasterEmployeeReport
+          %li= link_to('Logout', destroy_user_session_path, :method=>'delete')
+    -#%ul.left
+      -#= render 'layouts/navigation_links'

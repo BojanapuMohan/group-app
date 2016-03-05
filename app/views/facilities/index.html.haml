@@ -1,0 +1,26 @@
+.row
+  .large-10.columns
+    %h2 All facilities
+  .large-2.columns
+    = link_to('New Facility', new_facility_path, class: 'button right') if can? :create, Facility
+.row
+  .large-6.columns.end
+    %table
+      %thead
+        %tr
+          %th Name
+          %th Enabled?
+          %th
+          %th
+          %th
+      %tbody
+        - @facilities.each do |facility|
+          %tr
+            %td= facility.name
+            %td= facility.enabled ? "Yes" : "NO"
+            %td= link_to('Edit', edit_facility_path(facility)) if can? :edit, facility
+            %td= link_to('Shifts', facility_shifts_path(facility)) if can? :read, Shift
+            -if facility.enabled
+              %td= link_to((image_tag "Disable.png"), facility, :method => :delete, :data => { :confirm => 'Disable Facility?'}) if can? :update, facility
+            -else
+              %td= link_to((image_tag "Enable.png"), enable_facility_path(facility), :method => :patch, :data => { :confirm => 'Enable Facility?'})if can? :update, facility

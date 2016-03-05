@@ -1,0 +1,6 @@
+= simple_form_for(@employees_role) do |f|
+  .employee-role-form-inputs
+    = f.input :role_name, :input_html => {:style => "width: 305px;"}
+    = f.input :role_abbreviation, :input_html => {:style => "width: 305px;"}
+  .form-actions
+    = f.button :submit, class: "button small radius", style: "margin-top:10px"

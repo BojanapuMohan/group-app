@@ -1,0 +1,28 @@
+- cache employee_call_out_list do
+  %dd
+    %a{href: "#" + dom_id(employee_call_out_list)}
+      .row
+        .large-4.columns= employee_call_out_list.created_at.strftime('%c')
+        .large-4.columns= employee_call_out_list.user_name
+        .large-4.columns= employee_call_out_list.employee_call_outs.eligible.size
+    .content{id: dom_id(employee_call_out_list)}
+      %table.call_out_table
+        - employee_call_out_list.employee_call_outs.eligible.decorate.each do |employee_call_out|
+          = render 'call_out_row', employee_call_out: employee_call_out
+        - if can? :inspect, employee_call_out_list
+          %tr
+            %td{colspan: 5}
+              = link_to "Details", "#", data: {toggle: dom_id(employee_call_out_list) + "_details"}
+
+      %table.call_out_table_details{id: dom_id(employee_call_out_list) + "_details"}
+        %tr
+          %th
+            Name
+          %th
+            Rejected
+          %th
+            Overtime
+          %th
+            Rule
+        - employee_call_out_list.employee_call_outs.decorate.each do |employee_call_out|
+          = render 'call_out_row_detail', employee_call_out: employee_call_out

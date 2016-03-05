@@ -1,0 +1,13 @@
+%h1= "Vacant Shifts"
+%table
+  %tr
+  - @shifts.each do |shift|
+    %tr
+      %td= shift.facility_name
+      %td= shift.employees_role
+      %td= shift.start_date
+      %td= shift.end_date      
+      %td= shift.shift_type.name
+      %td= link_to("Schedule", facility_schedule_path(shift.facility, shift.start_date))
+      
+      

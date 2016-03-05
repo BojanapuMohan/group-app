@@ -1,0 +1,18 @@
+- if @user.errors.any?
+  .alert-box.alert
+    -@user.errors.full_messages.each do |msg|
+      = msg
+.row
+  .large-6.columns
+    %fieldset
+      = f.input :name, :autofocus => true, input_html: {required: ""}
+      = f.input :email, input_html: {required: ""}
+    %fieldset
+      = f.input :role_id, as: :radio_buttons, collection: Role.all, :label => "Role", input_html: {required: ""}
+  .large-6.columns
+    %fieldset
+      = f.input :facility_ids, as: :check_boxes, collection: Facility.enabled,wrapper_html: { class: ("error" if @user.errors[:facilities].any?) }
+      
+
+
+      

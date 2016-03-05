@@ -1,0 +1,28 @@
+%h1= "Editing #{@employee.name}"
+
+= render 'form'
+
+%br
+= simple_form_for([@employee, Note.new]) do |f|
+  = f.error_notification
+  = f.text_area :note,{:style => "height:8rem;"}
+  = f.hidden_field :user_id, :value => current_user.id
+  .form-actions
+    = f.button :submit
+%table{:style=>"width:50%;border:0px;"}
+  -@notes.each do |note|
+    %tr
+      %td
+        %b{:style=>"font-size:14px;"}
+          = (note.created_at).strftime("%B %d, %Y - %H%M")
+          by
+          =(note.user_name(note.user_id))
+        %br
+        %br
+        =note.note
+        %hr
+
+
+
+
+

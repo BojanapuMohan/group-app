@@ -1,0 +1,6 @@
+<% if @employees_role.save %>
+  <% @employees_roles = EmployeesRole.all %>
+  $('#employees_role_table').html("<%=j render(:partial => "roles_table", :object => @employees_roles) %>")
+<% end %>
+$('#new_Employees_role_link').show()
+$('#new_Employees_role').hide()

@@ -1,0 +1,9 @@
+= simple_form_for(@facility) do |f|
+  = f.error_notification
+  %fieldset
+    = f.input :name
+    = f.input :has_shared_duty_shifts
+  = f.button :submit
+  &nbsp; or &nbsp;
+  = link_to('Cancel', facilities_path) if can? :read, Facility
+

@@ -1,0 +1,22 @@
+- cache employee_call_out do
+  %tr{id: dom_id(employee_call_out), class: "call_out_row #{employee_call_out.tr_class}", data: {position: employee_call_out.position, rule: employee_call_out.rule}}
+    %td= employee_call_out.called_at
+    %td
+      -if can? :create_note, Employee
+        = link_to(employee_call_out.employee_name, "#", data: { reveal_id: "myNoteModal#{employee_call_out.employee_id}", reveal: true})
+      -else 
+        = employee_call_out.employee_name
+      
+      %div{:id => "myNoteModal#{employee_call_out.employee_id}", :class => "employee_id reveal-modal", :data => {:reveal=>""}}
+        %h3
+          Add a note about #{employee_call_out.employee_name}
+        = simple_form_for([employee_call_out.employee, Note.new]) do |f|
+          = f.text_area :note,{:style => "height:8rem;"}
+          = f.hidden_field :user_id, :value => current_user.id
+          = f.button :submit
+        %a.close-reveal-modal ×
+    %td= employee_call_out.employee_phone
+    %td
+      = simple_form_for employee_call_out, html: {class: 'full_width', data: {submit_on_change: true}}, remote: true do |f|
+        = f.association :employee_call_out_result, collection: EmployeeCallOutResult.all, label: false
+    %td= link_to fa_icon('plus-circle'), duplicate_employee_call_out_path(employee_call_out), remote: true, method: :post

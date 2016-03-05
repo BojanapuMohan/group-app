@@ -1,0 +1,47 @@
+= simple_form_for([@facility, @shift],html: {novalidate: false}) do |f|
+  .row
+    .large-12.columns
+      = f.input :employees_role_id, collection: EmployeesRole.enabled, input_html: {required: ""}
+      = f.input :shift_type_id, collection: ShiftType.all, input_html: {required: ""}
+      Schedule
+      = f.select_recurring :schedule_store, nil, :allow_blank => true
+  .row
+    .large-4.columns
+      = f.input :start_date, as: :string, input_html: {class: "shiftdate",required: "", data: {date_format: "yyyy-mm-dd"}}
+    .large-4.columns
+      = f.input :end_date, as: :string, input_html: {class: "shiftdate",required: "", data: {date_format: "yyyy-mm-dd"}}
+  .row
+    .large-4.columns
+      = f.input :start_hour,:collection => (0..23),:include_blank => false,:selected =>  @shift.start_hour,:input_html => {required: ""}
+    .large-4.columns
+      = f.input :start_minute,:collection => %w{ 00 15 30 45 },:include_blank => false
+  .row
+    .large-12.columns
+      = f.input :time_of_day, collection: DayOfWeekAvailability.times_of_day
+      = f.simple_fields_for :scheduled_shifts, f.object.employee_shift do |s|
+        = s.input :employee_id, collection: Employee.enabled
+  .row
+    .large-6.columns
+      = f.button :submit
+      &nbsp; or &nbsp;
+      = link_to('Cancel', facility_shifts_path(@facility)) if can? :read, @shift
+    .large-4.columns
+      = link_to("Remove this shift", "#", class: 'button alert right', data: { reveal_id: "removeShift", reveal: true }) if @shift.persisted? && can?(:update, @shift)
+
+#removeShift.reveal-modal{"data-reveal" => ""}
+  %h2 Remove Shift
+  You are going to remove following shift.
+  %br
+  %ul
+    %li{:style=>"margin:20px;"}
+      "#{@shift.employees_role}": "#{@facility}"
+  = simple_form_for [@facility, @shift] do |f|
+    = f.input :end_date, as: :string, input_html: {value: Date.today,class: "shiftdate", data: {date_format: "yyyy-mm-dd"}}, label: "Remove shift begning on"
+    %hr{:style=>"border-top:1px dashed;"}
+    .form-actions
+      = f.button :submit
+      &nbsp; or &nbsp;
+      %a.customcancel.close-reveal-modal Cancel
+      
+
+  %a.close-reveal-modal ×

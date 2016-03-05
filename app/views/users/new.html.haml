@@ -1,0 +1,11 @@
+.row
+  .small-12.columns
+    %h2 New User
+.row
+  .small-12.columns    
+    = simple_form_for(@user,html: {novalidate: false}) do |f|
+      = render 'user_fields', f: f
+      = f.button :submit, 'Send Invitation'
+      &nbsp; or &nbsp;
+      = link_to('Cancel', users_path) if can? :read, User
+

@@ -1,0 +1,54 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require recurring_select
+ *= require font-awesome
+ *= require dataTables/jquery.dataTables.foundation
+ *= require_self
+ *= require_tree .
+ */
+
+@import "font-awesome";
+
+.shift_border{
+  border-collapse:collapse;
+}
+.shift_border td, shift_border th{
+  
+  border:1px solid #000;
+}
+.shift_header{
+  border:1px solid #000;
+  margin-bottom:0px;
+ }
+ .fa-angle-double-left:before {
+    content: "";
+}
+.fa-angle-double-right:before {
+    content: "";
+}
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+}
+@media print {
+header, #viewShift { visibility: hidden }
+}
+.customcancel{
+  color: #0078A0 !important;
+  font-size: 1em !important;
+  font-weight: normal !important;
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+}

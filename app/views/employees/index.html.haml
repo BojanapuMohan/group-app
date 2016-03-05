@@ -1,0 +1,48 @@
+.row
+  .small-4.columns
+    %h2 All Employees
+  .small-6.columns
+    -if can? :import, Employee
+      = form_tag(import_employees_path, multipart: true) do
+        %div{:style=>"float:left"}
+          %h5 Import Employees
+          = file_field_tag :file
+        %div{:style=>"float:left;margin:10px 0 0 0;"}
+          = submit_tag "Import", :class => "button right"
+  .small-2.columns
+    = link_to('New Employee', new_employee_path, class: "button right")  if can? :create, Employee 
+
+.row
+  .large-12.columns
+    %table{:id => "employees"}
+      %thead
+        %tr
+          %th First Name
+          %th Last Name
+          %th Phone
+          %th Employee Class
+          %th Seniority
+          %th Enabled?
+          %th
+          %th
+          %th
+      %tbody
+        - @employees.each do |employee|
+          - cache employee do
+            %tr
+              %td= employee.first_name
+              %td= employee.last_name
+              %td= employee.phone
+              %td= employee.employee_class
+              %td= employee.seniority
+              %td= employee.enabled ? "Yes" : "NO"
+              %td= link_to('Edit', edit_employee_path(employee))  if can? :edit, employee
+              %td= link_to('Availability', edit_employee_availability_path(employee))  if can? :edit, Availability
+              -if employee.enabled
+                %td= link_to((image_tag "Disable.png"), employee, :method => :delete, :data => { :confirm => 'Disable Employee?' })   if can? :update, employee
+              -else
+                %td= link_to((image_tag "Enable.png"), enable_employee_path(employee), :method => :patch, :data => { :confirm => 'Enable Employee?' }) if can? :update, employee
+
+
+
+

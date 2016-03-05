@@ -1,0 +1,16 @@
+%table
+  %tr
+    %th
+    %th
+  %tr
+    %th Employee Name
+    %th Employee Seniority
+  = form_for(:employee, :url => seniority_path, :method => "post") do |f|
+    - @employees.each do |employee|
+      %tr
+        = hidden_field_tag "employee_ids[]", employee.id
+        %td= employee.name
+        %td= text_field_tag "employees["+(employee.id).to_s+"]", employee.seniority
+    %tr
+    %td.form-actions
+      = f.button :submit

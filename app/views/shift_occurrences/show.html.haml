@@ -1,0 +1,63 @@
+.row
+  .large-12.columns
+    %h1= "Sheduling details: #{@shift_occurrence.shift_facility_name}"
+
+    %p
+      Date: 
+      = @shift_occurrence.date
+    %p
+      Time: 
+      = @shift_occurrence.shift_time_range
+    %p
+      Role: 
+      = @shift_occurrence.shift_employees_role_role_name
+    %p
+      Dates:
+      = @shift_occurrence.employee_shift_date_range
+  %hr
+.row
+  .large-6.columns
+    %h2 Schedule History 
+    %table
+      %tr
+        %td
+          Employee
+        %td
+          Reason
+        %td
+          Dates
+        %td
+      - @shift_occurrence.employee_shifts.each do |employee_shift|
+        %tr
+          %td= employee_shift.employee_name
+          %td= employee_shift.shift_replacement_reason
+          %td= employee_shift.date_range
+          %td
+            - if employee_shift.employee.nil?
+              = link_to("Create Callout", facility_call_out_shift_call_out_lists_path(@facility, employee_shift), method: :post, class: "button") if can? :create, CallOutShift
+    = link_to("Change Employee", "#", class: "button", data: { reveal_id: "myModal", reveal: true }) if can? :edit, CallOutShift
+    or
+    = link_to("Cancel", facility_schedule_path(@facility, @shift_occurrence.date)) if can? :read, @facility
+  .large-6.columns
+    %h2 Callout History
+    %dl.accordion{data: {accordion: true}}
+      - @shift_occurrence.employee_call_out_lists.each do |employee_call_out_list|
+        - if employee_call_out_list.filtered?
+          = render 'employee_call_out_list_table', employee_call_out_list: employee_call_out_list
+        - else
+          .loading_call_out_list{id: dom_id(employee_call_out_list), data: {facility_id: @facility.id, call_out_shift_id: employee_call_out_list.call_out_shift_id, id: employee_call_out_list.id}}
+            Loading.....
+
+#myModal.reveal-modal{"data-reveal" => ""}
+  %h2 Change Employee
+  = simple_form_for [@facility, CallOutShift.build_from_shift_occurence(@shift_occurrence)] do |f|
+    = f.input :replaced_shift_id, as: :hidden
+    = f.input :shift_id, as: :hidden
+    = f.association :shift_replacement_reason, collection: ShiftReplacementReason.all
+    = f.input :start_date, as: :date_picker
+    = f.input :end_date, as: :date_picker
+    = check_box_tag :create_call_list, true, false, id: "create_call_list_check", hidden: true
+    = f.submit "Mark Vacant", class: "button"
+    = f.button(:submit, "Create a call list", class: "button", onclick: "$('#create_call_list_check').prop('checked', true);")
+  %a.close-reveal-modal ×
+

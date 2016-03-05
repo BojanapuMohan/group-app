@@ -1,0 +1,23 @@
+.row
+  .large-12.columns
+    %table.shift_border
+      %tr
+        %td
+        - @range.each do |date|
+          %td.date{:colspan=>2}
+            %b= date
+      - @shifts.each do |shift|
+        - cache [shift, @range] do
+          %tr
+            %td{:rowspan => 2}
+              %b= shift.employees_role_role_abbreviation
+            - @range.each do |date|
+              %td
+                - occurence = @shift_occurrences.find_by_shift_and_date(shift, date)
+                = occurence.shift_time_range
+              %td= occurence.employee_shift_shift_replacement_reason_abreviation
+          %tr
+            - @range.each do |date|
+              - occurence = @shift_occurrences.find_by_shift_and_date(shift, date)
+              %td{class: occurence.td_class, :colspan=>2, data: {path: facility_shift_occurrence_path(@facility, shift, date)}}
+                = "#{occurence.employee_name}"

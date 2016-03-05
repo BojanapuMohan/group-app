@@ -1,0 +1,7 @@
+- cache employee_call_out do
+  %tr{id: dom_id(employee_call_out), class: "call_out_row #{employee_call_out.tr_class}", data: {position: employee_call_out.position, rule: employee_call_out.rule}}
+    %td= employee_call_out.employee_name
+    %td= employee_call_out.rejected?
+    %td= employee_call_out.overtime?
+    %td= employee_call_out.rule.join(", ")
+

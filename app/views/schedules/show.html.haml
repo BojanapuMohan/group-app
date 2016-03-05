@@ -1,0 +1,27 @@
+%br
+.row
+  .large-12.columns
+    %table.shift_header
+      %tr
+        %td{:style=>"width:200px;"}
+          = collection_select(:schedule, :facility_id, (Facility.enabled.accessible_by(current_ability)), :id, :name, {:selected => @facility.id})
+        %td
+          .button{:class => "week", :start_date => "#{Date.today.to_s(:db)}"}
+            Today
+        %td
+          .button{:class => "week", :start_date => "#{@start_date-7.days}", :end_date => "#{@end_date-7.days}"}
+            %i{:class => "fa fa-angle-double-left"}
+          .button
+            = "#{@start_date} - #{@end_date}"
+          .button{:class => "week", :start_date => "#{@start_date+7.days}", :end_date => "#{@end_date+7.days}"}
+            %i{:class => "fa fa-angle-double-right"}
+        %td.right
+          .button{:onclick=>"window.print()"} Print
+  
+
+%div{:id => "schedule_table"}
+  = render "schedule_table"
+
+.row
+  .large-12.columns
+    = link_to("View Shifts", facility_shifts_path(@facility), class: 'button',:id => "viewShift") if can? :read, Shift

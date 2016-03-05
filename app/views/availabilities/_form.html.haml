@@ -1,0 +1,57 @@
+= simple_form_for(@availability, url: update_employee_availability_path(@employee), html: {class: 'full_width'}, method: :post) do |f|
+  .row
+    .large-12.columns= f.error_notification
+  .row
+    .large-4.columns
+      %h4
+        Availability:
+        %hr
+    .large-3.large-offset-1.columns
+      %h4
+        Can Work At:
+        %hr
+    .large-3.large-offset-1.columns
+      %h4
+        Can Work As:
+        %hr
+  .row
+    .large-1.columns
+      %h5
+        Day
+      - DayOfWeekAvailability.week_days.each do |week_day|
+        .day_of_week_name
+          = week_day
+    .large-1.columns
+      %h5
+        Morning
+      = f.collection_check_boxes :day_of_week_availability_ids, DayOfWeekAvailability.morning, :id, :time_of_day, item_wrapper_tag: 'div', item_wrapper_class: 'day_of_week_name'  do |b|
+        = b.check_box
+    .large-1.columns
+      %h5
+        Evening
+      = f.collection_check_boxes :day_of_week_availability_ids, DayOfWeekAvailability.evening, :id, :time_of_day, item_wrapper_tag: 'div', item_wrapper_class: 'day_of_week_name' do |b|
+        = b.check_box
+    .large-1.columns
+      %h5
+        Night
+      = f.collection_check_boxes :day_of_week_availability_ids, DayOfWeekAvailability.night, :id, :time_of_day, item_wrapper_tag: 'div', item_wrapper_class: 'day_of_week_name' do |b|
+        = b.check_box
+    .large-3.large-offset-1.columns
+      = f.collection_check_boxes :facility_ids, Facility.enabled, :id, :name, item_wrapper_tag: 'div'
+    .large-3.large-offset-1.columns
+      = f.collection_check_boxes :employees_role_ids, EmployeesRole.enabled, :id, :role_name, item_wrapper_tag: 'div'
+  .row
+    .large-4.columns
+      %hr
+      %h4
+        Availability during Vacations:
+      CALL WHEN ON VACATION?
+      =f.check_box :call_on_vacation
+      YES
+  %hr
+  %br
+  .row
+    .large-4.columns
+      = f.button :submit
+      &nbsp; or &nbsp;
+      = link_to('Cancel', employees_path) if can? :read, Employee
